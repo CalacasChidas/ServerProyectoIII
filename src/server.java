@@ -19,6 +19,7 @@ public class server implements Runnable{
     }
     @Override
     public void run(){
+        System.out.println("Si funciona :D");
         try {
             server = new ServerSocket(9999);
             pool = Executors.newCachedThreadPool();
@@ -27,6 +28,7 @@ public class server implements Runnable{
                 ConnectionHandler handler = new ConnectionHandler(client);
                 connections.add(handler);
                 pool.execute(handler);
+
             }
         }catch (Exception e){
             shutdown();
