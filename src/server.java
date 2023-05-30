@@ -27,6 +27,7 @@ public class server implements Runnable{
                 ConnectionHandler handler = new ConnectionHandler(client);
                 connections.add(handler);
                 pool.execute(handler);
+
             }
         }catch (Exception e){
             shutdown();
