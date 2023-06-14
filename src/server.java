@@ -8,15 +8,28 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ *
+ * Clase servidor
+ * Necesaria para iniciar el código del juego
+ */
 public class server implements Runnable{
     private ArrayList<ConnectionHandler> connections;
     private ServerSocket server;
     private boolean done;
     private ExecutorService pool;
+
+    /**
+     * Creación de la lista deconecciones
+     */
     public server(){
         done = false;
         connections = new ArrayList<>();
     }
+
+    /**
+     * Se ejecuta para abrir el socket e indicar que se estableció la conección
+     */
     @Override
     public void run(){
         System.out.println("Si funciona :D");
@@ -35,6 +48,11 @@ public class server implements Runnable{
         }
 
     }
+
+    /**
+     * Envía parametros
+     * @param message
+     */
     public void broadcast(String message){
         for(ConnectionHandler ch : connections){
             if (ch != null){
@@ -42,6 +60,10 @@ public class server implements Runnable{
             }
         }
     }
+
+    /**
+     * Cierra el socket
+     */
     public void shutdown(){
         try{
             done = true;
@@ -55,6 +77,10 @@ public class server implements Runnable{
             //ignore
         }
     }
+
+    /**
+     * Listener para las indicaciones enviadas desde la otra aplicación
+     */
     class ConnectionHandler implements Runnable{
         private Socket client;
         private BufferedReader in;
@@ -86,6 +112,11 @@ public class server implements Runnable{
                 shutdown();
             }
         }
+
+        /**
+         * Envía parametros
+         * @param message
+         */
         public void sendMessage(String message){
             out.println(message);
         }
@@ -101,6 +132,11 @@ public class server implements Runnable{
             }
         }
     }
+
+    /**
+     * Ejecuta la aplicación
+     * @param args
+     */
     public static void main(String[] args) {
         server server = new server();
         server.run();
